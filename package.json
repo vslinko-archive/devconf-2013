@@ -1,0 +1,8 @@
+{
+  "name": "vslinko-devconf-2013"
+, "version": "0.1.0"
+, "dependencies": {
+    "grunt": "~0.4"
+  , "grunt-contrib-connect": "~0.3"
+  }
+}

@@ -19,6 +19,10 @@
     .reveal th, .reveal td {
       padding: 15px 30px;
     }
+    .reveal iframe {
+      width: 800px;
+      height: 800px;
+    }
     </style>
 
   </head>
@@ -91,6 +95,7 @@
         <section>
           <section>
             <h2>Шаблоны и data binding</h2>
+            <p>index.html</p>
             <pre><code data-trim>
 &lt;!DOCTYPE html>
 &lt;html ng-app>
@@ -105,7 +110,7 @@
             </code></pre>
           </section>
           <section>
-            <iframe src="examples/01-templates/index.html" width="100%" height="100%"></iframe>
+            <iframe src="examples/01-templates/index.html"></iframe>
           </section>
         </section>
 
@@ -127,6 +132,7 @@
             </ul>
           </section>
           <section>
+            <p>index.html</p>
             <pre><code data-trim>
 &lt;!DOCTYPE html>
 &lt;html ng-app="dcApp">
@@ -148,6 +154,7 @@
             </code></pre>
           </section>
           <section>
+            <p>script.js</p>
             <pre><code data-trim>
 var dcApp = angular.module("dcApp", []);
 
@@ -161,10 +168,70 @@ dcApp.controller("SecondCtrl", function ($scope) {
             </code></pre>
           </section>
           <section>
-            <iframe src="examples/02-controllers/index.html" width="100%" height="100%"></iframe>
+            <iframe src="examples/02-controllers/index.html"></iframe>
           </section>
         </section>
 
+        <section>
+          <section>
+            <h2>Директивы</h2>
+            <ul>
+              <li>описывают поведение или изменение DOM элемента</li>
+              <li>позволяют расширять HTML в декларативном стиле</li>
+              <li>вызываются через аттрибут, название элемента, CSS класс или комментарий</li>
+            </ul>
+          </section>
+          <section>
+            <p>index.html</p>
+            <pre><code data-trim>
+&lt;!DOCTYPE html>
+&lt;html ng-app="dcApp">
+  &lt;head>
+    &lt;script src="angular.min.js">&lt;/script>
+    &lt;script src="script.js">&lt;/script>
+  &lt;/head>
+  &lt;body>
+    &lt;hello-name name="Ivan" autofocus>&lt;/hello-name>
+    &lt;hello-name name="Petr">&lt;/hello-name>
+  &lt;/body>
+&lt;/html>
+            </code></pre>
+          </section>
+          <section>
+            <p>script.js</p>
+            <pre><code data-trim>
+var dcApp = angular.module("dcApp", []);
+
+dcApp.directive("helloName", function () {
+  return {
+    scope: {
+      name: "@"
+    },
+    restrict: "E",
+    templateUrl: "hello-name.html",
+    replace: true,
+    link: function (scope, element, attrs) {
+      if (attrs.hasOwnProperty("autofocus")) {
+        element.find("input")[0].focus()
+      }
+    }
+  };
+});
+            </code></pre>
+          </section>
+          <section>
+            <p>hello-world.html</p>
+            <pre><code data-trim>
+&lt;div>
+  &lt;h1>Hello {{ name }}!&lt;/h1>
+  &lt;input ng-model="name" />
+&lt;/div>
+            </code></pre>
+          </section>
+          <section>
+            <iframe src="examples/03-directives/index.html"></iframe>
+          </section>
+        </section>
       </div>
     </div>
 
