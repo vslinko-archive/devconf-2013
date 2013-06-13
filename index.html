@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf8">
+
+    <title>Ваш первый проект на AngularJS</title>
+
+    <link rel="stylesheet" href="shared/reveal.min.css">
+    <link rel="stylesheet" href="shared/serif-theme.css">
+    <link rel="stylesheet" href="shared/zenburn.css">
+
+    <style>
+    .reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
+      line-height: 1.1;
+    }
+    .reveal li {
+      margin: 15px 0;
+    }
+    .reveal th, .reveal td {
+      padding: 15px 30px;
+    }
+    </style>
+
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+
+        <section>
+          <h2>Ваш первый проект на&nbsp;AngularJS</h2>
+          <p>
+            <small>by <a href="http://github.com/vslinko">@vslinko</a>
+              for <a href="http://devconf.ru/">devconf</a>
+              in 2013
+            </small>
+          </p>
+        </section>
+
+        <section>
+          <h2>Что такое AngularJS?</h2>
+          <ul>
+            <li>MV* framework</li>
+            <li>Не просто библиотека а полное решение</li>
+            <li>Фокус на связывание данных и расширение разметки</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>История AngularJS</h2>
+          <table>
+            <tbody>
+              <tr>
+                <th>2009</th>
+                <td>Miško Hevery и Adam Abrons стартуют&nbsp;GetAngular.com</td>
+              </tr>
+              <tr>
+                <th>2010</th>
+                <td>Abrons уходит, приходят<br>Igor Minár и&nbsp;Vojta&nbsp;Jína</td>
+              </tr>
+              <tr>
+                <th>13&nbsp;июня&nbsp;2012</th>
+                <td>версия 1.0.0</td>
+              </tr>
+              <tr>
+                <th>22 мая 2013</th>
+                <td>версии 1.0.7 (stable) и 1.1.5 (unstable)</td>
+              </tr>
+              <tr>
+                <th>13 июня 2013</th>
+                <td>10k звезд и 2k форков на Github</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section>
+          <h2>Основные концепции</h2>
+          <ul>
+            <li>шаблоны и data binding</li>
+            <li>контроллеры и scope</li>
+            <li>директивы</li>
+            <li>сервисы и dependency injection</li>
+            <li>фильтры</li>
+            <li>роутинг</li>
+            <li>resources</li>
+            <li>валидация форм</li>
+            <li>тестируемость</li>
+          </ul>
+        </section>
+
+        <section>
+          <section>
+            <h2>Шаблоны и data binding</h2>
+            <pre><code data-trim>
+&lt;!DOCTYPE html>
+&lt;html ng-app>
+  &lt;head>
+    &lt;script src="angular.min.js">&lt;/script>
+  &lt;/head>
+  &lt;body ng-init="name = 'World'">
+    &lt;h1>Hello {{ name }}!&lt;/h1>
+    &lt;input ng-model="name" autofocus />
+  &lt;/body>
+&lt;/html>
+            </code></pre>
+          </section>
+          <section>
+            <iframe src="examples/01-templates/index.html" width="100%" height="100%"></iframe>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Scope</h2>
+            <ul>
+              <li>клей между контроллером и шаблоном</li>
+              <li>объект, ссылающийся на модели приложения</li>
+              <li>контекст выполнения выражений в шаблоне</li>
+              <li>один $rootScope и дерево дочерних scope</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Контроллер</h2>
+            <ul>
+              <li>контроллер — код описывающий поведение шаблона</li>
+              <li>контроллер создает новый изолированный scope</li>
+            </ul>
+          </section>
+          <section>
+            <pre><code data-trim>
+&lt;!DOCTYPE html>
+&lt;html ng-app="dcApp">
+  &lt;head>
+    &lt;script src="angular.min.js">&lt;/script>
+    &lt;script src="script.js">&lt;/script>
+  &lt;/head>
+  &lt;body>
+    &lt;div ng-controller="FirstCtrl">
+      &lt;h1>Hello {{ name }}!&lt;/h1>
+      &lt;input ng-model="name" autofocus />
+    &lt;/div>
+    &lt;div ng-controller="SecondCtrl">
+      &lt;h1>Hello {{ name }}!&lt;/h1>
+      &lt;input ng-model="name" />
+    &lt;/div>
+  &lt;/body>
+&lt;/html>
+            </code></pre>
+          </section>
+          <section>
+            <pre><code data-trim>
+var dcApp = angular.module("dcApp", []);
+
+dcApp.controller("FirstCtrl", function ($scope) {
+  $scope.name = "Ivan";
+});
+
+dcApp.controller("SecondCtrl", function ($scope) {
+  $scope.name = "Petr";
+});
+            </code></pre>
+          </section>
+          <section>
+            <iframe src="examples/02-controllers/index.html" width="100%" height="100%"></iframe>
+          </section>
+        </section>
+
+      </div>
+    </div>
+
+    <script src="shared/head.min.js"></script>
+    <script src="shared/reveal.min.js"></script>
+
+    <script>
+    Reveal.initialize({
+      history: true,
+      transition: "linear",
+      transitionSpeed: "fast",
+      dependencies: [
+        {
+          src: "shared/highlight.js",
+          callback: function() {
+            hljs.initHighlightingOnLoad();
+          }
+        }
+      ]
+    });
+    </script>
+  </body>
+</html>
