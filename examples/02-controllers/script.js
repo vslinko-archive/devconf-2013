@@ -1,9 +1,9 @@
 var dcApp = angular.module("dcApp", []);
 
 dcApp.controller("FirstCtrl", function ($scope) {
-  $scope.name = "Ivan";
+  $scope.name = "Иван";
 });
 
 dcApp.controller("SecondCtrl", function ($scope) {
-  $scope.name = "Petr";
+  $scope.name = "Петр";
 });

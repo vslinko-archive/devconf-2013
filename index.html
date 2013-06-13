@@ -42,9 +42,9 @@
         <section>
           <h2>Что такое AngularJS?</h2>
           <ul>
-            <li>MV* framework</li>
-            <li>Не просто библиотека а полное решение</li>
-            <li>Фокус на связывание данных и расширение разметки</li>
+            <li>больше, чем JS библиотека</li>
+            <li>полноценный fontend MV* framework</li>
+            <li>фокус на связывание данных и расширение разметки</li>
           </ul>
         </section>
 
@@ -54,22 +54,22 @@
             <tbody>
               <tr>
                 <th>2009</th>
-                <td>Miško Hevery и Adam Abrons стартуют&nbsp;GetAngular.com</td>
+                <td>Miško Hevery и Adam Abrons разрабатывают GetAngular.com</td>
               </tr>
               <tr>
                 <th>2010</th>
-                <td>Abrons уходит, приходят<br>Igor Minár и&nbsp;Vojta&nbsp;Jína</td>
+                <td>Adam Abrons уходит, присоединяются&nbsp;Igor&nbsp;Minár и&nbsp;Vojta&nbsp;Jína</td>
               </tr>
               <tr>
                 <th>13&nbsp;июня&nbsp;2012</th>
                 <td>версия 1.0.0</td>
               </tr>
               <tr>
-                <th>22 мая 2013</th>
+                <th>22&nbsp;мая&nbsp;2013</th>
                 <td>версии 1.0.7 (stable) и 1.1.5 (unstable)</td>
               </tr>
               <tr>
-                <th>13 июня 2013</th>
+                <th>13&nbsp;июня&nbsp;2013</th>
                 <td>10k звезд и 2k форков на Github</td>
               </tr>
             </tbody>
@@ -85,7 +85,7 @@
             <li>сервисы и dependency injection</li>
             <li>фильтры</li>
             <li>роутинг</li>
-            <li>resources</li>
+            <li>ресурсы и REST</li>
             <li>валидация форм</li>
             <li>тестируемость</li>
           </ul>
@@ -101,8 +101,8 @@
   &lt;head>
     &lt;script src="angular.min.js">&lt;/script>
   &lt;/head>
-  &lt;body ng-init="name = 'World'">
-    &lt;h1>Hello {{ name }}!&lt;/h1>
+  &lt;body ng-init="name = 'мир'">
+    &lt;h1>Привет {{ name }}!&lt;/h1>
     &lt;input ng-model="name" autofocus />
   &lt;/body>
 &lt;/html>
@@ -126,8 +126,8 @@
           <section>
             <h2>Контроллер</h2>
             <ul>
-              <li>контроллер — код описывающий поведение шаблона</li>
-              <li>контроллер создает новый изолированный scope</li>
+              <li>код описывающий поведение шаблона</li>
+              <li>создает новый изолированный scope</li>
             </ul>
           </section>
           <section>
@@ -141,11 +141,11 @@
   &lt;/head>
   &lt;body>
     &lt;div ng-controller="FirstCtrl">
-      &lt;h1>Hello {{ name }}!&lt;/h1>
+      &lt;h1>Привет {{ name }}!&lt;/h1>
       &lt;input ng-model="name" autofocus />
     &lt;/div>
     &lt;div ng-controller="SecondCtrl">
-      &lt;h1>Hello {{ name }}!&lt;/h1>
+      &lt;h1>Привет {{ name }}!&lt;/h1>
       &lt;input ng-model="name" />
     &lt;/div>
   &lt;/body>
@@ -158,11 +158,11 @@
 var dcApp = angular.module("dcApp", []);
 
 dcApp.controller("FirstCtrl", function ($scope) {
-  $scope.name = "Ivan";
+  $scope.name = "Иван";
 });
 
 dcApp.controller("SecondCtrl", function ($scope) {
-  $scope.name = "Petr";
+  $scope.name = "Петр";
 });
             </code></pre>
           </section>
@@ -176,7 +176,7 @@ dcApp.controller("SecondCtrl", function ($scope) {
             <h2>Директивы</h2>
             <ul>
               <li>описывают поведение или изменение DOM элемента</li>
-              <li>позволяют расширять HTML в декларативном стиле</li>
+              <li>позволяют расширять HTML</li>
               <li>вызываются через аттрибут, название элемента, CSS класс или комментарий</li>
             </ul>
           </section>
@@ -190,8 +190,8 @@ dcApp.controller("SecondCtrl", function ($scope) {
     &lt;script src="script.js">&lt;/script>
   &lt;/head>
   &lt;body>
-    &lt;hello-name name="Ivan" autofocus>&lt;/hello-name>
-    &lt;hello-name name="Petr">&lt;/hello-name>
+    &lt;hello-name name="Иван" autofocus>&lt;/hello-name>
+    &lt;hello-name name="Петр">&lt;/hello-name>
   &lt;/body>
 &lt;/html>
             </code></pre>
@@ -211,7 +211,7 @@ dcApp.directive("helloName", function () {
     replace: true,
     link: function (scope, element, attrs) {
       if (attrs.hasOwnProperty("autofocus")) {
-        element.find("input")[0].focus()
+        element.find("input")[0].focus();
       }
     }
   };
@@ -222,7 +222,7 @@ dcApp.directive("helloName", function () {
             <p>hello-world.html</p>
             <pre><code data-trim>
 &lt;div>
-  &lt;h1>Hello {{ name }}!&lt;/h1>
+  &lt;h1>Привет {{ name }}!&lt;/h1>
   &lt;input ng-model="name" />
 &lt;/div>
             </code></pre>

@@ -10,7 +10,7 @@ dcApp.directive("helloName", function () {
     replace: true,
     link: function (scope, element, attrs) {
       if (attrs.hasOwnProperty("autofocus")) {
-        element.find("input")[0].focus()
+        element.find("input")[0].focus();
       }
     }
   };
