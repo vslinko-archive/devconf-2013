@@ -248,6 +248,12 @@ dcApp.directive("helloName", function () {
           callback: function() {
             hljs.initHighlightingOnLoad();
           }
+        },
+        {
+          src: "shared/zoom.js",
+          condition: function() {
+            return !!document.body.classList;
+          }
         }
       ]
     });
