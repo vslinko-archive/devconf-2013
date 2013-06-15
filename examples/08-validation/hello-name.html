@@ -1,0 +1,7 @@
+<div>
+  <form name="helloForm">
+    <h1>Привет {{ name | reverse }}!</h1>
+    <input ng-model="name" name="name" required />
+    <span ng-show="helloForm.name.$invalid">ошибка :-(</span>
+  </form>
+</div>

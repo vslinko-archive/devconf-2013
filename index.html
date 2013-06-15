@@ -231,6 +231,495 @@ dcApp.directive("helloName", function () {
             <iframe src="examples/03-directives/index.html"></iframe>
           </section>
         </section>
+        
+        <section>
+          <section>
+            <h2>Dependency injection</h2>
+            <ul>
+              <li>патерн програмирования для управления зависимостями</li>
+              <li>избавяет от жесткого связывания завимимых объектов</li>
+            </ul>
+          </section>
+          <section>
+            <pre><code data-trim>
+class MongoDB
+  constructor: (@hostname) ->
+  query: ->
+
+class Sendmail
+  send: ->
+
+class Task
+  run: ->  
+    mailer = new Sendmail()
+    db = new MongoDB("localhost")
+
+    data = db.query()
+
+    mailer.send(data)
+            </code></pre>
+          </section>
+          <section>
+            <pre><code data-trim>
+class MySQL
+  constructor: (@hostname, @username, @password) ->
+  query: ->
+
+class SMTP
+  constructor: (@hostname, @username, @password) ->
+  send: ->
+
+class Task
+  run: ->  
+    mailer = new SMTP("localhost", "root", "root")
+    db = new MySQL("localhost", "root", "root")
+
+    data = db.query()
+
+    mailer.send(data)
+            </code></pre>
+          </section>
+          <section>
+            <pre><code data-trim>
+class MySQL
+  constructor: (@hostname, @username, @password) ->
+  query: ->
+
+class SMTP
+  constructor: (@hostname, @username, @password) ->
+  send: ->
+
+class Task
+  constructor: (@mailer, @db) ->
+  run: ->  
+    data = @db.query()
+    @mailer.send(data)
+            </code></pre>
+          </section>
+          <section>
+            <p>script.js</p>
+            <pre><code data-trim>
+var dcApp = angular.module("dcApp", []);
+
+dcApp.factory("nameGenerator", function () {
+  return {
+    generate: function () {
+      var names = [
+        "Иван",
+        "Петр"
+      ];
+
+      var index = Math.round(Math.random() * (names.length - 1));
+
+      return names[index];
+    }
+  }
+});
+
+dcApp.directive("helloName", function (nameGenerator) {
+  return {
+    scope: {},
+    restrict: "E",
+    templateUrl: "hello-name.html",
+    replace: true,
+    link: function (scope, element, attrs) {
+      scope.name = nameGenerator.generate()
+
+      if (attrs.hasOwnProperty("autofocus")) {
+        element.find("input")[0].focus();
+      }
+    }
+  };
+});
+            </code></pre>
+          </section>
+          <section>
+            <iframe src="examples/04-services/index.html"></iframe>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Фильтры</h2>
+            <ul>
+              <li>форматируют данные для отображения (uppercase)</li>
+              <li>фильтруют массивы (limitTo)</li>
+              <li>сотрирую массивы (orderBy)</li>
+            </ul>
+          </section>
+          <section>
+            <p>script.js</p>
+            <pre><code data-trim>
+var dcApp = angular.module("dcApp", []);
+
+dcApp.filter("reverse", function () {
+  return function (str) {
+    return str.split("").reverse().join("");
+  };
+});
+
+dcApp.factory("nameGenerator", function () {
+  return {
+    generate: function () {
+      var names = [
+        "Иван",
+        "Петр"
+      ];
+
+      var index = Math.round(Math.random() * (names.length - 1));
+
+      return names[index];
+    }
+  }
+});
+
+dcApp.directive("helloName", function (nameGenerator) {
+  return {
+    scope: {},
+    restrict: "E",
+    templateUrl: "hello-name.html",
+    replace: true,
+    link: function (scope, element, attrs) {
+      scope.name = nameGenerator.generate()
+
+      if (attrs.hasOwnProperty("autofocus")) {
+        element.find("input")[0].focus();
+      }
+    }
+  };
+});
+            </code></pre>
+          </section>
+          <section>
+            <p>hello-world.html</p>
+            <pre><code>
+&lt;div>
+  &lt;h1>Привет {{ name | reverse }}!&lt;/h1>
+  &lt;input ng-model="name" />
+&lt;/div>
+            </code></pre>
+          </section>
+          <section>
+            <iframe src="examples/05-filters/index.html"></iframe>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Роутинг</h2>
+            <ul>
+              <li>использует History API</li>
+              <li>соотносит URI с контроллером</li>
+            </ul>
+          </section>
+          <section>
+            <p>script.js</p>
+            <pre><code data-trim>
+var dcApp = angular.module("dcApp", []);
+
+dcApp.config(function ($routeProvider) {
+  $routeProvider.when("/", {
+    templateUrl: "mainpage.html"
+  });
+
+  $routeProvider.when("/list", {
+    controller: "ListCtrl",
+    templateUrl: "list.html"
+  });
+});
+
+dcApp.controller("ListCtrl", function ($scope, nameGenerator) {
+  $scope.names = [];
+
+  for (var i = 0; i < 5; i++) {
+    $scope.names.push(nameGenerator.generate());
+  }
+});
+
+dcApp.filter("reverse", function () {
+  return function (str) {
+    return str.split("").reverse().join("");
+  };
+});
+
+dcApp.factory("nameGenerator", function () {
+  return {
+    generate: function () {
+      var names = [
+        "Иван",
+        "Петр"
+      ];
+
+      var index = Math.round(Math.random() * (names.length - 1));
+
+      return names[index];
+    }
+  }
+});
+
+dcApp.directive("helloName", function (nameGenerator) {
+  return {
+    scope: {},
+    restrict: "E",
+    templateUrl: "hello-name.html",
+    replace: true,
+    link: function (scope, element, attrs) {
+      scope.name = nameGenerator.generate()
+
+      if (attrs.hasOwnProperty("autofocus")) {
+        element.find("input")[0].focus();
+      }
+    }
+  };
+});
+            </code></pre>
+          </section>
+          <section>
+            <p>index.html</p>
+            <pre><code data-trim>
+&lt;!DOCTYPE html>
+&lt;html ng-app="dcApp">
+  &lt;head>
+    &lt;script src="angular.min.js">&lt;/script>
+    &lt;script src="script.js">&lt;/script>
+  &lt;/head>
+  &lt;body>
+    &lt;nav>
+      &lt;a href="#/">Главная&lt;/a> |
+      &lt;a href="#/list">Список&lt;/a>
+    &lt;/nav>
+    &lt;div ng-view>&lt;/div>
+  &lt;/body>
+&lt;/html>
+            </code></pre>
+          </section>
+          <section>
+            <p>list.html</p>
+            <pre><code data-trim>
+&lt;div>
+  &lt;ul>
+    &lt;li ng-repeat="name in names">{{ name | reverse }}&lt;/li>
+  &lt;/ul>
+&lt;/div>
+            </code></pre>
+          </section>
+          <section>
+            <iframe src="examples/06-routing/index.html"></iframe>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>ngResource</h2>
+            <ul>
+              <li>отдельный модуль</li>
+              <li>позволяет прозрачно работать с REST API</li>
+              <li>использует promises скрывая асинхронность</li>
+            </ul>
+          </section>
+          <section>
+            <p>index.html</p>
+            <pre><code data-trim>
+&lt;!DOCTYPE html>
+&lt;html ng-app="dcApp">
+  &lt;head>
+    &lt;script src="angular.min.js">&lt;/script>
+    &lt;script src="angular-resource.min.js">&lt;/script>
+    &lt;script src="script.js">&lt;/script>
+  &lt;/head>
+  &lt;body>
+    &lt;nav>
+      &lt;a href="#/">Главная&lt;/a> |
+      &lt;a href="#/list">Список&lt;/a>
+    &lt;/nav>
+    &lt;div ng-view>&lt;/div>
+  &lt;/body>
+&lt;/html>
+            </code></pre>
+          </section>
+          <section>
+            <p>script.js</p>
+            <pre><code data-trim>
+var dcApp = angular.module("dcApp", [
+  "ngResource"
+]);
+
+dcApp.factory("Name", function ($resource) {
+  return $resource("names.json");
+});
+
+dcApp.config(function ($routeProvider) {
+  $routeProvider.when("/", {
+    templateUrl: "mainpage.html"
+  });
+
+  $routeProvider.when("/list", {
+    controller: "ListCtrl",
+    templateUrl: "list.html"
+  });
+});
+
+dcApp.controller("ListCtrl", function ($scope, Name) {
+  $scope.names = Name.query();
+});
+
+dcApp.filter("reverse", function () {
+  return function (str) {
+    return str.split("").reverse().join("");
+  };
+});
+
+dcApp.factory("nameGenerator", function () {
+  return {
+    generate: function () {
+      var names = [
+        "Иван",
+        "Петр"
+      ];
+
+      var index = Math.round(Math.random() * (names.length - 1));
+
+      return names[index];
+    }
+  }
+});
+
+dcApp.directive("helloName", function (nameGenerator) {
+  return {
+    scope: {},
+    restrict: "E",
+    templateUrl: "hello-name.html",
+    replace: true,
+    link: function (scope, element, attrs) {
+      scope.name = nameGenerator.generate()
+
+      if (attrs.hasOwnProperty("autofocus")) {
+        element.find("input")[0].focus();
+      }
+    }
+  };
+});
+            </code></pre>
+          </section>
+          <section>
+            <iframe src="examples/07-ngResource/index.html"></iframe>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Валидация форм</h2>
+            <ul>
+              <li>готовая валидация на основе HTML5</li>
+              <li>возможноть расширения валидации</li>
+              <li>удобное API</li>
+            </ul>
+          </section>
+          <section>
+            <pre><code data-trim>
+&lt;div>
+  &lt;form name="helloForm">
+    &lt;h1>Привет {{ name | reverse }}!&lt;/h1>
+    &lt;input ng-model="name" name="name" required />
+    &lt;span ng-show="helloForm.name.$invalid">ошибка :-(&lt;/span>
+  &lt;/form>
+&lt;/div>
+            </code></pre>
+          </section>
+          <section>
+            <iframe src="examples/08-validation/index.html"></iframe>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Тестируемость</h2>
+            <ul>
+              <li>тесты это добро</li>
+              <li>unit тесты</li>
+              <li>e2e тесты</li>
+            </ul>
+          </section>
+          <section>
+            <p>test.html</p>
+            <pre><code data-trim>
+&lt;!DOCTYPE html>
+&lt;html>
+  &lt;head>
+    &lt;meta charset="utf8">
+    &lt;link rel="stylesheet" href="jasmine.css">
+  &lt;/head>
+  &lt;body>
+    &lt;script src="jasmine.js">&lt;/script>
+    &lt;script src="jasmine-html.js">&lt;/script>
+
+    &lt;script src="angular.min.js">&lt;/script>
+    &lt;script src="angular-resource.min.js">&lt;/script>
+    &lt;script src="angular-mocks.js">&lt;/script>
+    &lt;script src="script.js">&lt;/script>
+
+    &lt;script src="test.js">&lt;/script>
+
+    &lt;script>
+      (function() {
+        var jasmineEnv = jasmine.getEnv();
+        jasmineEnv.addReporter(new jasmine.HtmlReporter());
+        jasmineEnv.execute();
+      })();
+    &lt;/script>
+  &lt;/body>
+&lt;/html>
+            </code></pre>
+          </section>
+          <section>
+            <p>test.js</p>
+            <pre><code data-trim>
+describe("dcApp", function () {
+  beforeEach(function () {
+    module("dcApp");
+  });
+
+  describe("reverse filter", function () {
+    var reverseFilter;
+
+    beforeEach(function () {
+      inject(function ($filter) {
+        reverseFilter = $filter("reverse");
+      });
+    });
+
+    it("should reverse string", function () {
+      expect(reverseFilter("String")).toBe("gnirtS");
+    });
+  });
+});
+            </code></pre>
+          </section>
+          <section>
+            <iframe src="examples/09-tests/test.html"></iframe>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Хорошо</h2>
+            <ul>
+              <li>CRUD и админки</li>
+              <li>одностраничные приложения</li>
+              <li>приложения использующие веб-сокеты</li>
+              <li>мобильные приложения</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Не хорошо</h2>
+            <ul>
+              <li>вики</li>
+              <li>блоги</li>
+              <li>новостные сайты</li>
+            </ul>
+          </section>
+        </section>
+
       </div>
     </div>
 
